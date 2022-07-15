@@ -52,8 +52,8 @@ CREATE TABLE IF NOT EXISTS artists
         artist_id VARCHAR PRIMARY KEY, 
         name VARCHAR NOT NULL, 
         location VARCHAR,
-        latitude REAL,
-        longitude REAL
+        latitude FLOAT,
+        longitude FLOAT
     );
 """)
 
@@ -105,6 +105,7 @@ time_table_insert = ("""
 INSERT INTO time 
     (start_time, hour, day, week, month, year, weekday)        
     VALUES (%s, %s, %s, %s, %s, %s, %s)
+    ON CONFLICT (start_time) DO NOTHING
 """)
 
 # FIND SONGS
