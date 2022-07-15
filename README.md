@@ -3,25 +3,19 @@
 ## Asignment 1: Udacity Data Enginnering
 ***
 Using the psycopg2 and pandas libraries, json logs for user events and song data
-<<<<<<< HEAD
 are processed and loaded into a PostGres WareHouse to easy analytics and data
 management.
 ***
 Contents: 
 1. Data Folder: the data is in the data folder in the folder root with two folders
     1. log_data: JSON Log files with user, artist, song and timestamp data
-    2. song_data: JSON song data
-=======
-are processed and loaded into a PostGres WareHouse for easy retrieval, analytics and data
-management.
->>>>>>> 31bc0e53fd1d2886b120dee2e096143a12ad7b5b
-
+    2. song_data: JSON song data 
+    
 2. Python Scripts in Folder root
     1. sql_queries.py - PostGres Queries to Create/Delete Database tables, insert data and query for a specific song
     2. create_tables.py - imports queries, re-creates/creates database, and all tables
     3. etl.py - imports queries, processes JSON files and loads into Database
 
-<<<<<<< HEAD
 3. Ipython Notebooks in Folder root
     1. etl.ipynb - test run of ETL on one file
     2. test.ipynb - tests database schema, constraints and loaded data
