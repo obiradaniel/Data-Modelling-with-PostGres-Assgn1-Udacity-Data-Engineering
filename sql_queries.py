@@ -11,15 +11,15 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 songplay_table_create = ("""
 CREATE TABLE IF NOT EXISTS songplays 
     (
-        songplay_id bigint, 
-        start_time timestamp, 
-        user_id int, 
-        level text, 
-        song_id text, 
-        artist_id text, 
-        session_id int, 
-        location text, 
-        user_agent text,
+        songplay_id BIGSERIAL, 
+        start_time TIMESTAMP, 
+        user_id INT, 
+        level VARCHAR(4) NOT NULL, 
+        song_id VARCHAR, 
+        artist_id VARCHAR, 
+        session_id INT, 
+        location VARCHAR, 
+        user_agent VARCHAR,
         PRIMARY KEY (songplay_id, start_time, user_id)
     );
 """)
@@ -27,46 +27,46 @@ CREATE TABLE IF NOT EXISTS songplays
 user_table_create = ("""
 CREATE TABLE IF NOT EXISTS users 
     (
-        user_id int PRIMARY KEY, 
-        first_name text, 
-        last_name text, 
-        gender text, 
-        level text
+        user_id INT PRIMARY KEY, 
+        first_name VARCHAR, 
+        last_name VARCHAR, 
+        gender VARCHAR(1) NOT NULL, 
+        level VARCHAR(4) NOT NULL
     );                
 """)
 
 song_table_create = ("""
 CREATE TABLE IF NOT EXISTS songs 
     (
-        song_id text PRIMARY KEY, 
-        title text NOT NULL, 
-        artist_id text, 
-        year int, 
-        duration float NOT NULL
+        song_id VARCHAR PRIMARY KEY, 
+        title VARCHAR NOT NULL, 
+        artist_id VARCHAR NOT NULL, 
+        year INT, 
+        duration REAL NOT NULL
     );                
 """)
 
 artist_table_create = ("""
 CREATE TABLE IF NOT EXISTS artists 
     (
-        artist_id text PRIMARY KEY, 
-        name text NOT NULL, 
-        location text,
-        latitude float,
-        longitude float
+        artist_id VARCHAR PRIMARY KEY, 
+        name VARCHAR NOT NULL, 
+        location VARCHAR,
+        latitude REAL,
+        longitude REAL
     );
 """)
 
 time_table_create = ("""
 CREATE TABLE IF NOT EXISTS time 
     (
-        start_time timestamp,
-        hour int,
-        day int,
-        week int,
-        month text,
-        year int,
-        weekday text
+        start_time TIMESTAMP PRIMARY KEY,
+        hour INT,
+        day INT,
+        week INT,
+        month VARCHAR,
+        year INT,
+        weekday VARCHAR
     );
 """)
 
@@ -83,7 +83,8 @@ user_table_insert = ("""
 INSERT INTO users 
     (user_id, first_name, last_name, gender, level)        
     VALUES (%s, %s, %s, %s, %s)
-    ON CONFLICT (user_id) DO NOTHING
+    ON CONFLICT (user_id) 
+    DO UPDATE SET level = EXCLUDED.level
 """)
 
 song_table_insert = ("""
@@ -111,7 +112,7 @@ INSERT INTO time
 song_select = ("""SELECT s.song_id, a.artist_id
     FROM songs s
     JOIN artists a ON s.artist_id = a.artist_id
-    WHERE s.title = %s AND a.name = %s AND s.duration = %s;""")
+    WHERE s.title = %s AND a.name = %s AND (s.duration - %s) < 0.01;""")
 
 # QUERY LISTS
 
